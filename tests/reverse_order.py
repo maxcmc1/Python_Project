@@ -12,5 +12,6 @@ class MyTestCase(unittest.TestCase):
     def reverse_string(self, input: str):
         return ' '.join(list(reversed(input.split())))
 
+
 if __name__ == '__main__':
     unittest.main()
