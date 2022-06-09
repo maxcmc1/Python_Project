@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class AmazonBestSellerExample(unittest.TestCase):
@@ -18,6 +20,7 @@ class AmazonBestSellerExample(unittest.TestCase):
 
     def test_find_headphones(self):
         browser = self.browser
+        wait = WebDriverWait(browser, 5)
         browser.find_element(By.ID, "twotabsearchtextbox").send_keys("headphones" + Keys.ENTER)
         # # OR
         # browser.find_element(By.ID, "twotabsearchtextbox").send_keys("headphones")
@@ -26,8 +29,16 @@ class AmazonBestSellerExample(unittest.TestCase):
         # browser.find_element(By.ID, "twotabsearchtextbox").send_keys("headphones")
         # browser.find_element(By.CSS_SELECTOR, "input.nav-input[value='Go']").click()
         best_sellers_list = browser.find_elements(By.CSS_SELECTOR, "span.a-badge-label[data-a-badge-color='sx-orange'] span.a-badge-text[data-a-badge-color='sx-cloud']")  # By CSS
-        # best_sellers_list = browser.find_elements(By.XPATH, "//span[@class="a-badge-label"][@data-a-badge-color="sx-orange"]//span[@class="a-badge-text"][@data-a-badge-color="sx-cloud"]")  # By Xpath
-        best_sellers_list[0].find_element(By.XPATH, "./ancestor::div[@class='a-section']/div//a").send_keys(Keys.CONTROL + Keys.ENTER)
+        # best_sellers_list = browser.find_elements(By.XPATH, "//span[@class='a-badge-label'][@data-a-badge-color='sx-orange']//span[@class='a-badge-text'][@data-a-badge-color='sx-cloud']/ancestor::div[contains(@class,'s-list-col-left')]//a[contains(@class,'s-no-outline')]")  # By Xpath
+        # best_sellers_list[0].find_element(By.XPATH, "./ancestor::div[@class='a-section']/div//a").send_keys(Keys.CONTROL + Keys.ENTER)
+        for best_sellers_banner in best_sellers_list:
+            best_sellers_banner.find_element(By.XPATH, "./ancestor::div[contains(@class,'s-list-col-left')]//a[contains(@class,'s-no-outline')]").send_keys(
+                Keys.CONTROL + Keys.ENTER)
+        wait.until(expected_conditions.number_of_windows_to_be(len(best_sellers_list) + 1)) # +1 is stands for orignal (current) window
+        handles = browser.window_handles
+        for j in range(1, len(handles)):
+            browser.switch_to.window(handles[j])
+            wait.until(expected_conditions.presence_of_element_located([By.ID, "add-to-cart-button"])).click()
         pass
 
 
