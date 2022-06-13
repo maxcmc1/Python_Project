@@ -11,7 +11,7 @@ class NewUser(unittest.TestCase):
         options = Options()
         options.add_argument("start-maximized")
         self.browser = webdriver.Chrome(
-            executable_path='C://Users//maksym.seliukov//PycharmProjects//Python_Automation//browsers//chromedriver.exe', options=options)
+            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
         self.browser.get("http://hrm-online.portnov.com/")
 
     def tearDown(self) -> None:
@@ -25,9 +25,10 @@ class NewUser(unittest.TestCase):
         # Click Add
         browser.find_element(By.ID, "btnAdd").click()
         # Enter employee name
-        wait.until(expected_conditions.presence_of_element_located([By.ID, "firstName"])).send_keys("Emily")
-        browser.find_element(By.ID, "lastName").send_keys("Jones")
-        emp_id = browser.find_element(By.ID, "employeeId").get_attribute("value")
+        # self.func_name("james", height=129, size='small', married='True', pet='dog')
+        emp_id = self.enter_employee_name("Emily", "Jones", "K")
+        # OR
+        # emp_id = self.enter_employee_name(last="Jones", middle="K", first="Emily")
         browser.find_element(By.ID, "chkLogin").click()
         # create employee creds
         wait.until(expected_conditions.visibility_of_element_located([By.ID, "user_name"])).send_keys("ms" + emp_id)
@@ -47,13 +48,36 @@ class NewUser(unittest.TestCase):
         actual_message = browser.find_element(By.ID, "welcome").text
         self.assertTrue("Welcome Emily", actual_message)
 
-    def login(self, username, password):
+    def enter_employee_name(self, first, last, middle=None):
+        WebDriverWait(self.browser, 3).until(expected_conditions.presence_of_element_located([By.ID, "firstName"])).send_keys(first)
+        self.browser.find_element(By.ID, "lastName").send_keys(last)
+        if middle:
+            self.browser.find_element(By.ID, "middleName").send_keys(middle)
+        emp_id = self.browser.find_element(By.ID, "employeeId").get_attribute("value")
+        return emp_id
+
+    def login(self, username='admin', password='password'):
         browser = self.browser
         browser.find_element(By.ID, "txtUsername").send_keys(username)
         browser.find_element(By.ID, "txtPassword").send_keys(password)
         browser.find_element(By.ID, "btnLogin").click()
         WebDriverWait(browser, 3).until(expected_conditions.presence_of_element_located(
             [By.CSS_SELECTOR, "#empsearch_employee_name_empName.inputFormatHint"])).click()
+
+    # def func_name(self, name, dob=None, **kwargs):
+    #     example_dict = {
+    #         'Key': 'value',
+    #         'age': 12,
+    #         'speed': 36.5
+    #     }
+    #     # this is what would happen to the passed in params
+    #     # kwargs = {'height':129, 'size': 'small', 'married': True, pet: 'dog'}
+    #
+    #     for item in kwargs.keys():
+    #         print(kwargs.get(item))
+    #
+    #     if 'height' in kwargs.keys():
+    #         print(f"your height is {kwargs.get('height')}")
 
 
 if __name__ == '__main__':

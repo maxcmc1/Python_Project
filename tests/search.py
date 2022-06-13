@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
         options = Options()
         options.add_argument("start-maximized")
         self.browser = webdriver.Chrome(
-            executable_path='C://Users//maksym.seliukov//PycharmProjects//Python_Automation//browsers//chromedriver.exe', options=options)
+            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
         self.browser.get("http://hrm-online.portnov.com/")
 
     def tearDown(self) -> None:

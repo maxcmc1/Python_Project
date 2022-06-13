@@ -12,16 +12,17 @@ class AmazonBestSellerExample(unittest.TestCase):
         options = Options()
         options.add_argument("start-maximized")
         self.browser = webdriver.Chrome(
-            executable_path='C://Users//maksym.seliukov//PycharmProjects//Python_Automation//browsers//chromedriver.exe', options=options)
+            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
         self.browser.get("https://www.amazon.com/")
 
     def tearDown(self) -> None:
         self.browser.quit()
 
     def test_find_headphones(self):
+        search_keyword = "tablet"
         browser = self.browser
         wait = WebDriverWait(browser, 5)
-        browser.find_element(By.ID, "twotabsearchtextbox").send_keys("headphones" + Keys.ENTER)
+        browser.find_element(By.ID, "twotabsearchtextbox").send_keys(search_keyword + Keys.ENTER)
         # # OR
         # browser.find_element(By.ID, "twotabsearchtextbox").send_keys("headphones")
         # browser.find_element(By.NAME, "site-search").submit()
@@ -39,6 +40,9 @@ class AmazonBestSellerExample(unittest.TestCase):
         for j in range(1, len(handles)):
             browser.switch_to.window(handles[j])
             wait.until(expected_conditions.presence_of_element_located([By.ID, "add-to-cart-button"])).click()
+            a_list = browser.find_elements(By.ID, "a-popover-3") # creating list in order if statement doesn't fail if it will not find an element in HTML
+            if a_list and a_list[0].is_displayed():
+                browser.find_element(By.CSS_SELECTOR, "#a-popover-3 .a-button-close").click()
         pass
 
 

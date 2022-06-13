@@ -7,7 +7,7 @@ from parameterized import parameterized
 
 class Login(unittest.TestCase):
     def setUp(self) -> None:
-        self.browser = webdriver.Chrome(executable_path='C://Users//maksym.seliukov//PycharmProjects//Python_Automation//browsers//chromedriver.exe')
+        self.browser = webdriver.Chrome(executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe')
         self.browser.get("http://hrm-online.portnov.com/")
 
     def tearDown(self) -> None:
