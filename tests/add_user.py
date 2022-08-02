@@ -1,18 +1,20 @@
 import unittest
-from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+from pages.login import LoginPage
+from tests import CHROME_DRIVER
+
 
 class NewUser(unittest.TestCase):
     def setUp(self) -> None:
-        options = Options()
-        options.add_argument("start-maximized")
-        self.browser = webdriver.Chrome(
-            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
+        self.browser = webdriver.Chrome(executable_path=CHROME_DRIVER)
         self.browser.get("http://hrm-online.portnov.com/")
+        self.browser.maximize_window()
+        self.login_page = LoginPage(self.browser)
+        self.login_page.go_to_page()
 
     def tearDown(self) -> None:
         self.browser.quit()
@@ -21,7 +23,7 @@ class NewUser(unittest.TestCase):
         browser = self.browser
         wait = WebDriverWait(browser, 3)
         # Login
-        self.login()
+        self.login_page.login()
         # Click Add
         browser.find_element(By.ID, "btnAdd").click()
         # Enter employee name
@@ -42,9 +44,10 @@ class NewUser(unittest.TestCase):
         browser.find_element(By.ID, "welcome").click()
         wait.until(expected_conditions.visibility_of_element_located([By.LINK_TEXT, "Logout"])).click()
         # Login back
-        browser.find_element(By.ID, "txtUsername").send_keys("ms" + emp_id)
-        browser.find_element(By.ID, "txtPassword").send_keys("password")
-        browser.find_element(By.ID, "btnLogin").click()
+        # browser.find_element(By.ID, "txtUsername").send_keys("ms" + emp_id)
+        # browser.find_element(By.ID, "txtPassword").send_keys("password")
+        # browser.find_element(By.ID, "btnLogin").click()
+        #login(self.browser, "ms" + emp_id)  # we supply only username because password is the same as initial in login function
         actual_message = browser.find_element(By.ID, "welcome").text
         self.assertTrue("Welcome Emily", actual_message)
 
@@ -55,14 +58,6 @@ class NewUser(unittest.TestCase):
             self.browser.find_element(By.ID, "middleName").send_keys(middle)
         emp_id = self.browser.find_element(By.ID, "employeeId").get_attribute("value")
         return emp_id
-
-    def login(self, username='admin', password='password'):
-        browser = self.browser
-        browser.find_element(By.ID, "txtUsername").send_keys(username)
-        browser.find_element(By.ID, "txtPassword").send_keys(password)
-        browser.find_element(By.ID, "btnLogin").click()
-        WebDriverWait(browser, 3).until(expected_conditions.presence_of_element_located(
-            [By.CSS_SELECTOR, "#empsearch_employee_name_empName.inputFormatHint"])).click()
 
     # def func_name(self, name, dob=None, **kwargs):
     #     example_dict = {

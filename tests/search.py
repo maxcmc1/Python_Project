@@ -7,14 +7,15 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
+from tests import PROJ_DIR
+
 
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        options = Options()
-        options.add_argument("start-maximized")
         self.browser = webdriver.Chrome(
-            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
+            executable_path=PROJ_DIR + '/browsers/chromedriver')
         self.browser.get("http://hrm-online.portnov.com/")
+        self.browser.maximize_window()
 
     def tearDown(self) -> None:
         self.browser.quit()

@@ -6,14 +6,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+from tests import CHROME_DRIVER
+
 
 class AmazonBestSellerExample(unittest.TestCase):
     def setUp(self) -> None:
-        options = Options()
-        options.add_argument("start-maximized")
-        self.browser = webdriver.Chrome(
-            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
+        self.browser = webdriver.Chrome(executable_path=CHROME_DRIVER)
         self.browser.get("https://www.amazon.com/")
+        self.browser.maximize_window()
 
     def tearDown(self) -> None:
         self.browser.quit()

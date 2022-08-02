@@ -11,7 +11,7 @@ class FrameDemo(unittest.TestCase):
         options = Options()
         options.add_argument("start-maximized")
         self.browser = webdriver.Chrome(
-            executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe', options=options)
+            executable_path='', options=options)
         self.browser.get("https://skryabin.com/webdriver/html/sample.html")
 
     def tearDown(self) -> None:

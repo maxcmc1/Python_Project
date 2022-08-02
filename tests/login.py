@@ -4,11 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from parameterized import parameterized
 
+from tests import PROJ_DIR
+
 
 class Login(unittest.TestCase):
     def setUp(self) -> None:
-        self.browser = webdriver.Chrome(executable_path='C://Users//dnepr//PycharmProjects//Python_Project//browsers//chromedriver.exe')
+        self.browser = webdriver.Chrome(
+            executable_path=PROJ_DIR + '/browsers/chromedriver')
         self.browser.get("http://hrm-online.portnov.com/")
+        self.browser.maximize_window()
 
     def tearDown(self) -> None:
         self.browser.quit()
