@@ -5,22 +5,22 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.base import BasePage
 
 
-class AddEmployeePage(BasePage):
-    def __init__(self, browser):
-        super().__init__(browser)
-        self.PAGE_URI = "/pim/addEmployee"
-        self.wait = WebDriverWait(self.browser, 5)
+@property
+def PAGE_URI(self):
+    return "/pim/addEmployee"
 
+
+class AddEmployeePage(BasePage):
     def enter_employee_first(self, first):
-        WebDriverWait(self.browser, 3).until(
+        self.wait.until(
             expected_conditions.presence_of_element_located([By.ID, "firstName"])).send_keys(first)
 
     def enter_employee_last(self, last):
-        WebDriverWait(self.browser, 3).until(
+        self.wait.until(
             expected_conditions.presence_of_element_located([By.ID, "lastName"])).send_keys(last)
 
     def enter_employee_middle(self, middle):
-        WebDriverWait(self.browser, 3).until(
+        self.wait.until(
             expected_conditions.presence_of_element_located([By.ID, "middleName"])).send_keys(middle)
 
     def get_employee_id(self):
@@ -32,3 +32,15 @@ class AddEmployeePage(BasePage):
         if middle:
             self.enter_employee_first(middle)
         return self.get_employee_id()
+
+    def enter_employee_credentials(self, username, password, repeat_password=None):
+        self.browser.find_element(By.ID, "chkLogin").click()
+        # create employee creds
+        self.wait.until(expected_conditions.visibility_of_element_located([By.ID, "user_name"])).send_keys(username)
+        self.browser.find_element(By.ID, "user_password").send_keys(password)
+        repassword = repeat_password if repeat_password else password
+        self.browser.find_element(By.ID, "re_password").send_keys(repassword)
+        page_url = self.browser.current_url
+        # Save
+        self.browser.find_element(By.ID, "btnSave").click()
+        self.wait.until(expected_conditions.url_changes(page_url))

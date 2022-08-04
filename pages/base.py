@@ -1,12 +1,19 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 from tests import BASE_URL
+
+
+@property
+def PAGE_URI(self):
+    return ""
 
 
 class BasePage(object):
     def __init__(self, browser):
         self.browser = browser
-        self.PAGE_URI = ""
+        self.wait = WebDriverWait(self.browser, 5)
+        self.long_wait = WebDriverWait(self.browser, 15)
 
     def get_title(self) -> str:
         return self.browser.find_element(By.CSS_SELECTOR, ".head h1").text

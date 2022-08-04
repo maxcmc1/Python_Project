@@ -1,16 +1,16 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-
+from pages.add_employee import PAGE_URI as add_employee_page_uri
 from pages.base import BasePage
 
 
-class EmployeeInformation(BasePage):
-    def __init__(self, browser):
-        super().__init__(browser)
-        self.PAGE_URI = "/pim/viewEmployeeList"
-        self.wait = WebDriverWait(self.browser, 5)
+@property
+def PAGE_URI(self):
+    return "/pim/viewEmployeeList"
 
+
+class EmployeeInformation(BasePage):
     def sort_table_by_first_middle_name(self):
         browser = self.browser
         browser.find_element(By.XPATH, "//th/a[text()='First (& Middle) Name']").click()
@@ -24,7 +24,7 @@ class EmployeeInformation(BasePage):
 
     def goto_add_employee_page(self):
         self.browser.find_element(By.ID, "btnAdd").click()
-        self.wait.until(expected_conditions.url_contains("addEmployee"))
+        self.wait.until(expected_conditions.url_contains(add_employee_page_uri))
         # self.browser.find_element(By.ID, "lastName")
 
 

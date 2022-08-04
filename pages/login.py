@@ -1,13 +1,15 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
 
 from pages.base import BasePage
 
 
-class LoginPage(BasePage):
-    def __init__(self, browser):
-        super().__init__(browser)
-        self.PAGE_URI = "/auth/login"
+@property
+def PAGE_URI(self):
+    return "/auth/login"
 
+
+class LoginPage(BasePage):
     def login(self, username='admin', password='password'):
         browser = self.browser
         browser.find_element(By.ID, "txtUsername").send_keys(username)
@@ -26,4 +28,11 @@ class LoginPage(BasePage):
 
     def get_title(self) -> str:
         return self.browser.find_element(By.ID, "logInPanelHeading").text
+
+    def logout(self):
+        self.browser.find_element(By.ID, "welcome").click()
+        self.wait.until(expected_conditions.visibility_of_element_located([By.LINK_TEXT, "Logout"])).click()
+
+    def get_welcome_message(self):
+        return self.wait.until(expected_conditions.presence_of_element_located([By.ID, "welcome"])).text
 
