@@ -5,9 +5,11 @@ from pages.add_employee import PAGE_URI as add_employee_page_uri
 from pages.base import BasePage
 
 
-@property
-def PAGE_URI(self):
-    return "/pim/viewEmployeeList"
+# @property
+# def PAGE_URI(self):
+#     return "/pim/viewEmployeeList"
+
+PAGE_URI = "/pim/viewEmployeeList"
 
 
 class EmployeeInformation(BasePage):

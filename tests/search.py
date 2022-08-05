@@ -1,26 +1,13 @@
 import unittest
-from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
+from fixtures.base import BaseFixture
 
-from tests import PROJ_DIR
 
-
-class MyTestCase(unittest.TestCase):
-    def setUp(self) -> None:
-        self.browser = webdriver.Chrome(
-            executable_path=PROJ_DIR + '/browsers/chromedriver')
-        self.browser.get("http://hrm-online.portnov.com/")
-        self.browser.maximize_window()
-
-    def tearDown(self) -> None:
-        self.browser.quit()
-
-    def test_something(self):
+class Search(BaseFixture):
+    def test_search_by_job_title(self):
         browser = self.browser
         browser.find_element(By.ID, "txtUsername").send_keys("admin")
         browser.find_element(By.ID, "txtPassword").send_keys("password")

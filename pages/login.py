@@ -4,9 +4,11 @@ from selenium.webdriver.support import expected_conditions
 from pages.base import BasePage
 
 
-@property
-def PAGE_URI(self):
-    return "/auth/login"
+# @property
+# def PAGE_URI(self):
+#     return "/auth/login"
+
+PAGE_URI = "/auth/login"
 
 
 class LoginPage(BasePage):

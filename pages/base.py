@@ -4,9 +4,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tests import BASE_URL
 
 
-@property
-def PAGE_URI(self):
-    return ""
+# @property
+# def PAGE_URI(self):
+#     return ""
+
+PAGE_URI = ""
 
 
 class BasePage(object):
@@ -19,4 +21,4 @@ class BasePage(object):
         return self.browser.find_element(By.CSS_SELECTOR, ".head h1").text
 
     def go_to_page(self):
-        self.browser.get(BASE_URL + "/symfony/web/index.php" + self.PAGE_URI)
+        self.browser.get(BASE_URL + "/symfony/web/index.php")
