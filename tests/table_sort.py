@@ -1,5 +1,4 @@
 import unittest
-
 from fixtures.base import BaseFixture
 from pages.employee_information import EmployeeInformation
 
